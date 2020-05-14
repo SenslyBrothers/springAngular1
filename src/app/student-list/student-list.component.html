@@ -1,0 +1,25 @@
+<div class="row">
+
+  <div class="col-3" *ngIf="students;">
+    
+    <li *ngFor="let student of students; index as i; first as isFirst">
+      {{student.name}}   ---> id {{student.id}}<span *ngIf="isFirst">default</span>  
+      <button (click)="delete(student.id)">Delete</button>
+      <button (click)="update(student.id,student)" >Update</button>
+    <button (click)="view(student.id)">Details</button>
+  </li>
+</div>
+
+<div class="col-3" *ngIf="student">
+  <div class="row">
+    id   : {{student.id}}
+    name : {{student.name}}
+  </div>
+
+  <div class="col-3" *ngIf="student">
+    <div class="row">
+      id   : {{student.id}}
+      name : {{student.name}}
+    </div>
+</div>
+</div>
