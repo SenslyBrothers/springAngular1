@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentService } from '../services/student.service';
-
-import {FormControl,FormGroup,Validators} from '@angular/forms';  
+import { StudentService, Student, StudentId } from '../services/student.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-export interface Student {
-    // student_id:number, 
-     
-    name:String,  
-    // student_email:String,  
-    // student_branch:String,  
-}
 
 
 @Component({
@@ -20,35 +12,36 @@ export interface Student {
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
- 
-  student : Student;
-  submitted = false;  
-  private baseUrl = 'http://localhost:8080';  
 
-  constructor(private http:HttpClient,private studentService:StudentService) { }
+  studentProfile = new FormGroup({
+    firstName: new FormControl('',[Validators.required,Validators.min(3)])
+  });
+
+ 
+
+  students: StudentId[] = [];
+
+  student: StudentId= null;
+
+  constructor(private http:HttpClient, private studentService :StudentService) { }
 
   ngOnInit(): void {
-    this.submitted= false;
+    this.getAllStudents();
+    console.log("oninit");
+    
   }
-
-  studentsaveform=new FormGroup({  
-    student_name:new FormControl('' , [Validators.required , Validators.minLength(5) ] ),  
-    student_email:new FormControl('',[Validators.required,Validators.email]),  
-    student_branch:new FormControl()  
-  });  
-
-  saveStudent(saveStudent){  
-     
-  }  
-
   save(){  
      
-    const name: String = "udulaIndunil";  
-    this.student={name};
+    const name: String = this.studentProfile.value.firstName; 
+    console.log(name);
+    
+    let id= null;
+
+    this.student={id,name};
     console.log(this.student+" The type Script ");
     
     this.studentService.createStudent(this.student).subscribe(res=>{
-      console.log(res);
+      // console.log(res);
       
           },
     error=>{
@@ -56,7 +49,66 @@ export class StudentsComponent implements OnInit {
       
     })
   }  
+
+  update(){
+    // console.log(this.student);
+    const name: String = this.studentProfile.value.firstName; 
+
+    const id = this.student.id;
+    const stu = {id,name};
+    console.log(stu);
+    
+    this.studentService.updateStudent(this.student.id,stu).subscribe(res=>{
+      // console.log(res);
+    },
+    error=>{
+      console.log(error);
+      
+    })
+
+    this.ngOnInit();
+  }
   
 
+
+
+
+  getAllStudents(){
+
+    this.studentService.getStudentList().subscribe(res=>{
+      this.students=res;
+      // this.students.forEach(x=>{console.log(x);
+      // })
+    },
+    error=>{
+      console.log(error);
+      
+    })    
+  }
+
+
+  delete(id:number){
+    this.studentService.deleteStudent(id).subscribe(
+      res=>{
+        // console.log(res);
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+    this.ngOnInit();
+  }    
+  
+
+  view(id:number){
+    this.studentService.getStudent(id).subscribe(res=>{
+      this.student=res
+      this.studentProfile.setValue({firstName:this.student.name});
+      this.ngOnInit();
+      // console.log(res);
+    },error=>{
+      console.log(error);
+    })
+  }
 
 }

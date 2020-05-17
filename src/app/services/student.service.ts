@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  
 import { Observable } from 'rxjs';
-import { Student } from '../students/students.component';
+
+export interface Student {
+  
+  name:String,  
+}
+
+
+export interface StudentId extends Student{
+    id : number
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +23,8 @@ export class StudentService {
   constructor(private http:HttpClient) { }
 
 
-  getStudentList():Observable<Student[]>{
-    return this.http.get<Student[]>(`${this.baseUrl}`+'students');
+  getStudentList():Observable<StudentId[]>{
+    return this.http.get<StudentId[]>(`${this.baseUrl}`+'students');
   }
 
   createStudent(student: Student):Observable<Student>{
@@ -22,15 +32,15 @@ export class StudentService {
   }
 
   deleteStudent(id: number):Observable<any> {  
-    return this.http.delete(`${this.baseUrl}/student/${id}`);  
+    return this.http.delete(`${this.baseUrl}student/${id}`);  
   }  
   
-  getStudent(id: number): Observable<Student> {  
-    return this.http.get<Student>(`${this.baseUrl}/student/${id}`);  
+  getStudent(id: number): Observable<StudentId> {  
+    return this.http.get<StudentId>(`${this.baseUrl}student/${id}`);  
   }  
   
-  updateStudent(id: number, Student: Student): Observable<Student> {  
-    return this.http.put<Student>(`${this.baseUrl}/student/${id}`,Student);  
+  updateStudent(id: number, student: StudentId): Observable<Student> {  
+    return this.http.put<Student>(`${this.baseUrl}student/${id}`,student);  
   }  
 
 

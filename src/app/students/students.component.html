@@ -1,8 +1,44 @@
 <div class="row">
   <div class="col-12">
 
+    <form class="example-form" [formGroup]="studentProfile">
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Ex. John" formControlName="firstName">
+      </mat-form-field>    
+      <button  [disabled]="!studentProfile.valid" (click)="save()" class='btn btn-primary'>Add More Student</button>  
+      <button  [disabled]="!studentProfile.valid" (click)="update()" class='btn btn-primary'>Update</button>  
       
+    </form>
 
   </div>
-  <button (click)="save()" class='btn btn-primary'>Add More Student</button>  
+  <div class="col-12">
+    
+      <div class="row">
+
+        <div class="col-4" *ngIf="students;">
+          
+          <li *ngFor="let student of students; index as i; first as isFirst">
+            {{student.name}}   ---> id {{student.id}}<br>
+
+            <button class="btn btn-primary" (click)="delete(student.id)">Delete</button>
+            <button class="btn btn-primary" (click)="view(student.id)" >Select</button>
+          <br><br>
+        </li>
+      </div>
+      
+      <div class="col-4">
+
+      </div>
+
+      <div class="col-4" >
+        <div class="row" *ngIf="student">
+          <p>
+            id   : {{student.id}}
+            name : {{student.name}}
+          </p>
+          
+        </div>
+      </div>
+  </div>
 </div>
