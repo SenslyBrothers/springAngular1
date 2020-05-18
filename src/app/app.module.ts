@@ -11,10 +11,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialModule } from './MaterialModule';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    StudentsComponent
+    StudentsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
