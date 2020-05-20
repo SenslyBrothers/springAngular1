@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticateService,AuthenticationRequestBody} from '../services/authenticate.service';
+import { AuthenticationRequestBody, JwtClientService, AuthenticationResponseBody } from '../services/jwt-client.service';
+
 
 @Component({
   selector: 'app-login',
@@ -9,27 +10,37 @@ import { AuthenticateService,AuthenticationRequestBody} from '../services/authen
 export class LoginComponent implements OnInit {
 
   abody : AuthenticationRequestBody;
+  response:any;
 
-  constructor(private authenticationService: AuthenticateService) { }
+  constructor(private jwtService:JwtClientService ) { }
 
   ngOnInit(): void {
+    this.getAccessToken();
   }
 
-  login(){
+  public getAccessToken(){
     const password = "foo";
     const userName = "foo"; 
     this.abody={userName,password};
 
     console.log(this.abody);
     
-
-    this.authenticationService.login(this.abody).subscribe(res=>{
+    this.jwtService.generateToken(this.abody).subscribe(res=>{
       console.log(res);
       
-    },error=>{
-      console.log(error);
+           
+      this.accessApi(res);
+
+    })
+  }
+
+  public accessApi(token){
+    this.response=this.jwtService.welcome(token).subscribe(res=>{
+      console.log(res);
       
     })
   }
+
+ 
 
 }

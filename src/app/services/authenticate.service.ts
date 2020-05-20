@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthenticationRequestBody, AuthenticationResponseBody } from './jwt-client.service';
 
-export interface AuthenticationRequestBody{
-  userName : String,
-	password : String	
-}
-
-export interface AuthenticationResponseBody{
-  jwt :String
-}
 
 @Injectable({
   providedIn: 'root'

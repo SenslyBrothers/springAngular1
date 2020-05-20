@@ -12,11 +12,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MaterialModule } from './MaterialModule';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { SecurityComponent } from './security/security.component';
 @NgModule({
   declarations: [
     AppComponent,
     StudentsComponent,
-    LoginComponent
+    LoginComponent,
+    SecurityComponent,
   ],
   imports: [
     BrowserModule,
